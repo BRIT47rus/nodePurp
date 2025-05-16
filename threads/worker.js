@@ -1,4 +1,4 @@
-const { workerData, parentPort } = require('worker_threads');
+const { parentPort, workerData } = require('worker_threads');
 const factorial = require('./factorial.js');
 const compute = ({ arr }) => {
     const array = [];

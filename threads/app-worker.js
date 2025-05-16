@@ -1,19 +1,21 @@
 const { Worker } = require('worker_threads');
-const compute = ({ arr }) => {
+const path = require('path');
+const compute = (arr) => {
     return new Promise((res, rej) => {
-        const worker = new Worker('./worker.js', {
+        const worker = new Worker(`${__dirname}/worker.js`, {
             workerData: { arr },
         });
+        const id = worker.threadId;
 
         worker.on('message', (msg) => {
-            console.log('щапустился поток');
-            resolve(msg);
+            console.log('щапустился поток ', id);
+            res(msg);
         });
         worker.on('error', (err) => {
             rej(err);
         });
         worker.on('exit', () => {
-            console.log('Выключился поток ');
+            console.log('Выключился поток ', id);
         });
     });
 };
