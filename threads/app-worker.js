@@ -1,5 +1,5 @@
 const { Worker } = require('worker_threads');
-const path = require('path');
+
 const compute = (arr) => {
     return new Promise((res, rej) => {
         const worker = new Worker(`${__dirname}/worker.js`, {
