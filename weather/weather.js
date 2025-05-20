@@ -1,7 +1,15 @@
-import { getArgs } from './getArgv.js';
+import { getArgs } from './helpers/getArgv.js';
+import { printHelp } from './services/log.service.js';
 const initCli = () => {
-    const arg = process.argv;
-    getArgs(arg);
+    const arg = getArgs(process.argv);
+
+    if (arg.h) {
+        printHelp();
+    }
+    if (arg.s) {
+    }
+    if (arg.t) {
+    }
 };
 
 initCli();

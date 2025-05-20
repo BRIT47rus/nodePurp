@@ -13,7 +13,7 @@ export const getArgs = (argv) => {
             }
         }
     });
-    console.log(res);
+
     return res;
 };
 
