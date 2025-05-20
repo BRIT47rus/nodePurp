@@ -1,5 +1,7 @@
-import { getArgv } from './getArgv.js';
-const openCli = () => {
-    getArgv(process.argv);
+import { getArgs } from './getArgv.js';
+const initCli = () => {
+    const arg = process.argv;
+    getArgs(arg);
 };
-openCli();
+
+initCli();
