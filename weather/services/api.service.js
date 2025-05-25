@@ -4,7 +4,8 @@ import axios from 'axios';
 
 const getWeather = async (city) => {
     // const url = `api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
-    const token = await getKeyValue(TOKEN_DICTIONARY.token);
+    const token =
+        process.env.TOKEN ?? (await getKeyValue(TOKEN_DICTIONARY.token));
     if (!token) {
         throw new Error('Отсутсвует токен, задайте его через -t');
     }
@@ -19,6 +20,7 @@ const getWeather = async (city) => {
             },
         }
     );
+    console.log(data);
     return data;
     // const url = new URL('https://api.openweathermap.org/data/2.5/weather');
     // url.searchParams.append('q', city);
