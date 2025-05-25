@@ -1,6 +1,15 @@
 import { getArgs } from './helpers/getArgv.js';
-import { printError, printHelp, printSuccess } from './services/log.service.js';
-import { saveKeyValue, TOKEN_DICTIONARY } from './services/storage.service.js';
+import {
+    printError,
+    printHelp,
+    printSuccess,
+    printWheather,
+} from './services/log.service.js';
+import {
+    saveKeyValue,
+    TOKEN_DICTIONARY,
+    getKeyValue,
+} from './services/storage.service.js';
 import { getWeather } from './services/api.service.js';
 const saveToken = async (token) => {
     if (!token.length) {
@@ -14,10 +23,24 @@ const saveToken = async (token) => {
         printError(error.message);
     }
 };
+const saveCity = async (city) => {
+    if (!city.length) {
+        printError('Не передан город');
+        return;
+    }
+    try {
+        await saveKeyValue(TOKEN_DICTIONARY.city, city);
+        printSuccess('Город сохранен');
+    } catch (error) {
+        printError(error.message);
+    }
+};
 const getForcast = async () => {
     try {
-        const weather = await getWeather('vyborg');
-        console.log(weather);
+        const city =
+            process.env.CITY ?? (await getKeyValue(TOKEN_DICTIONARY.city));
+        const weather = await getWeather(city);
+        printWheather(weather, '');
     } catch (error) {
         if (error?.response?.status == 404) {
             printError('Неверно указан город');
@@ -35,6 +58,7 @@ const initCli = () => {
         printHelp();
     }
     if (arg.s) {
+        saveCity(arg.s);
     }
     if (arg.t) {
         return saveToken(arg.t);
