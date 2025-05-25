@@ -19,7 +19,7 @@ const printHelp = () => {
 const printWheather = (response, icon) => {
     console.log(
         dedent`${chalk.bgYellow('WEATHER')} Погода в городе ${response.name}
-            ${icon} ${response.icon[0].description}
+            ${icon} ${response.weather[0].description}
             Температура : ${response.main.temp} (ощущается как) ${
             response.main.feels_like
         }

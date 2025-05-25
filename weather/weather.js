@@ -10,7 +10,7 @@ import {
     TOKEN_DICTIONARY,
     getKeyValue,
 } from './services/storage.service.js';
-import { getWeather } from './services/api.service.js';
+import { getWeather, getIcon } from './services/api.service.js';
 const saveToken = async (token) => {
     if (!token.length) {
         printError('Не передан токен');
@@ -40,7 +40,7 @@ const getForcast = async () => {
         const city =
             process.env.CITY ?? (await getKeyValue(TOKEN_DICTIONARY.city));
         const weather = await getWeather(city);
-        printWheather(weather, '');
+        printWheather(weather, getIcon(weather.weather[0].icon));
     } catch (error) {
         if (error?.response?.status == 404) {
             printError('Неверно указан город');
@@ -55,15 +55,15 @@ const initCli = () => {
     const arg = getArgs(process.argv);
 
     if (arg.h) {
-        printHelp();
+        return printHelp();
     }
     if (arg.s) {
-        saveCity(arg.s);
+        return saveCity(arg.s);
     }
     if (arg.t) {
         return saveToken(arg.t);
     }
-    getForcast();
+    return getForcast();
 };
 
 initCli();
