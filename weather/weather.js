@@ -14,6 +14,20 @@ const saveToken = async (token) => {
         printError(error.message);
     }
 };
+const getForcast = async () => {
+    try {
+        const weather = await getWeather('vyborg');
+        console.log(weather);
+    } catch (error) {
+        if (error?.response?.status == 404) {
+            printError('Неверно указан город');
+        } else if (error?.response?.status == 401) {
+            printError('Неверно указан token');
+        } else {
+            printError(error.message);
+        }
+    }
+};
 const initCli = () => {
     const arg = getArgs(process.argv);
 
@@ -25,7 +39,7 @@ const initCli = () => {
     if (arg.t) {
         return saveToken(arg.t);
     }
-    getWeather('vyborg');
+    getForcast();
 };
 
 initCli();
